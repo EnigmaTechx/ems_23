@@ -21,11 +21,11 @@ class EmployeeList extends Component {
         query: `
                 query {
                     employees {
-                        id
+                      id
                         FirstName
                         LastName
                         Age
-                        BirthDate
+                        DateOfJoining
                         Title
                         Department
                         EmployeeType
@@ -37,13 +37,48 @@ class EmployeeList extends Component {
     })
       .then((res) => res.json())
       .then((body) => {
-        console.log(`body: ${JSON.stringify(body.data.employees)}`);
+        body.data.employees.forEach((employee) => {
+          employee.DateOfJoining = new Date(employee.DateOfJoining);
+        });
         this.setState({ employees: body.data.employees });
       });
   }
 
   createEmployee = (employee) => {
     //TODO: call graphql API to create employee
+    // console.log(`Employee JSON: ${JSON.stringify(employee)}`);
+    fetch("/graphql", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify({
+        query: `mutation Mutation($employee: EmployeeInput) { 
+          addEmployee(employee: $employee) {
+            id
+            FirstName
+            LastName
+            Age
+            DateOfJoining
+            Title
+            Department
+            EmployeeType
+            CurrentStatus
+          }
+        }`,
+        variables: { employee },
+      }),
+    })
+      .then((res) => res.json())
+      .then((body) => {
+        body.data.addEmployee.DateOfJoining = new Date(
+          body.data.addEmployee.DateOfJoining
+        );
+        const { employees } = this.state;
+        // console.log(`body: ${JSON.stringify(body)}}`);
+        const newEmployeeArray = [...employees, body.data.addEmployee];
+        this.setState({ employees: newEmployeeArray });
+      });
   };
 
   render() {
