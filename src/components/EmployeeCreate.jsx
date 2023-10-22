@@ -7,33 +7,57 @@ class EmployeeCreate extends Component {
 
     const form = document.forms.newEmployeeForm;
 
-    // Create an object to hold the employee data
-    // const employeeData = {
+    if (form.fname.value === "") {
+      document.getElementById("fnameerror").textContent =
+        "First Name Is Required.";
+    }
+    if (form.lname.value === "") {
+      document.getElementById("lnameerror").textContent =
+        "Last Name Is Required.";
+    }
+    if (form.date.value === "") {
+      document.getElementById("dateerror").textContent =
+        "Please select date of join";
+    }
+    if (form.age.value === "") {
+      document.getElementById("ageerror").textContent = "Select valid age";
+    } else if (form.age.value < 20 || form.age.value > 70) {
+      document.getElementById("ageerror").textContent =
+        "Age should be between 20 to 70";
+    } else {
+      // Create an object to hold the employee data
+      // const employeeData = {
 
-    // };
+      // };
 
-    // Log the data to the console
-    // console.log("Employee Data:", employeeData);
+      // Log the data to the console
+      // console.log("Employee Data:", employeeData);
 
-    // Send the data to the parent component for further processing
-    this.props.createEmployee({
-      FirstName: form.fname.value,
-      LastName: form.lname.value,
-      Age: parseInt(form.age.value),
-      DateOfJoining: form.date.value,
-      Title: form.title.value,
-      Department: form.dept.value,
-      EmployeeType: form.type.value,
-    });
+      // Send the data to the parent component for further processing
+      this.props.createEmployee({
+        FirstName: form.fname.value,
+        LastName: form.lname.value,
+        Age: parseInt(form.age.value),
+        DateOfJoining: form.date.value,
+        Title: form.title.value,
+        Department: form.dept.value,
+        EmployeeType: form.type.value,
+      });
 
-    // Reset form fields
-    form.fname.value = "";
-    form.lname.value = "";
-    form.age.value = "";
-    form.date.value = "";
-    form.title.value = "";
-    form.dept.value = "";
-    form.type.value = "";
+      // Reset form fields
+      form.fname.value = "";
+      form.lname.value = "";
+      form.age.value = "";
+      form.date.value = "";
+      form.title.value = "";
+      form.dept.value = "";
+      form.type.value = "";
+      // reset error messages
+      document.getElementById("fnameerror").textContent = "";
+      document.getElementById("lnameerror").textContent = "";
+      document.getElementById("ageerror").textContent = "";
+      document.getElementById("dateerror").textContent = "";
+    }
   };
   render() {
     return (
@@ -58,6 +82,8 @@ class EmployeeCreate extends Component {
                 style={{ height: 30 }}
               />
             </div>
+
+            <span style={{ color: "red" }} id="fnameerror"></span>
           </div>
           <div className="row mb-3">
             <label className="col-sm-2 col-form-label" htmlFor="lName">
@@ -71,6 +97,8 @@ class EmployeeCreate extends Component {
                 style={{ height: 30 }}
               />
             </div>
+
+            <span style={{ color: "red" }} id="lnameerror"></span>
           </div>
           <div className="row mb-3">
             <label className="col-sm-2 col-form-label" htmlFor="age">
@@ -84,6 +112,8 @@ class EmployeeCreate extends Component {
                 style={{ height: 30 }}
               />
             </div>
+
+            <span style={{ color: "red" }} id="ageerror"></span>
           </div>
           <div className="row mb-3">
             <label className="col-sm-2 col-form-label" htmlFor="date">
@@ -97,6 +127,8 @@ class EmployeeCreate extends Component {
                 style={{ height: 30 }}
               />
             </div>
+
+            <span style={{ color: "red" }} id="dateerror"></span>
           </div>
           <div className="row mb-3">
             <label className="col-sm-2 col-form-label" htmlFor="title">
