@@ -2,7 +2,6 @@ import { Component } from "react";
 
 class EmployeeCreate extends Component {
   handleSubmit = (event) => {
-    // TODO: send form values back to EmployeeList.jsx for processing
     event.preventDefault();
 
     const form = document.forms.newEmployeeForm;
@@ -25,15 +24,6 @@ class EmployeeCreate extends Component {
       document.getElementById("ageerror").textContent =
         "Age should be between 20 to 70";
     } else {
-      // Create an object to hold the employee data
-      // const employeeData = {
-
-      // };
-
-      // Log the data to the console
-      // console.log("Employee Data:", employeeData);
-
-      // Send the data to the parent component for further processing
       this.props.createEmployee({
         FirstName: form.fname.value,
         LastName: form.lname.value,
@@ -191,5 +181,4 @@ class EmployeeCreate extends Component {
     );
   }
 }
-// ReactDOM.render(<EmployeeCreate />, document.getElementById("EmployeeForm"));
 export default EmployeeCreate;

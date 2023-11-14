@@ -75,7 +75,6 @@ class EmployeeList extends Component {
           body.data.addEmployee.DateOfJoining
         );
         const { employees } = this.state;
-        // console.log(`body: ${JSON.stringify(body)}}`);
         const newEmployeeArray = [...employees, body.data.addEmployee];
         this.setState({ employees: newEmployeeArray });
       });
