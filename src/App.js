@@ -6,13 +6,26 @@
     Harsh Rameshkumar Patel - EmployeeCreateForm & API for Inserting Employee
  */
 
-import EmployeeDirectory from "./components/EmployeeDirectory";
+import EmployeeDirectory from "./routes/home/EmployeeDirectory";
 import "./App.css";
+import { Route, Routes } from "react-router-dom";
+import Navbar from "./routes/navigation/Navbar";
+import EmployeeList from "./routes/employee_list/EmployeeList";
+import EmployeeCreate from "./routes/create/EmployeeCreate";
+import NotFound from "./routes/not_found/NotFound";
 
 function App() {
   return (
     <div className="App">
-      <EmployeeDirectory />
+      <Routes>
+        <Route path="/" element={<Navbar />}>
+          <Route path="/" element={<EmployeeDirectory />} />
+          <Route path="/" element={<EmployeeList />} />
+          {/* TODO: create nested route for EmployeeDetails.jsx */}
+          <Route path="/create" element={<EmployeeCreate />} />
+          <Route path="*" element={<NotFound />} />
+        </Route>
+      </Routes>
     </div>
   );
 }
