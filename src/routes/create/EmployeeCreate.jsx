@@ -1,6 +1,51 @@
 import { Component } from "react";
+// import { useNavigate } from "react-router-dom";
 
 class EmployeeCreate extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      employees: [],
+      og_employees: [],
+    };
+  }
+
+  createEmployee = (employee) => {
+    fetch("/graphql", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify({
+        query: `mutation Mutation($employee: EmployeeInput) { 
+          addEmployee(employee: $employee) {
+            id
+            FirstName
+            LastName
+            Age
+            DateOfJoining
+            Title
+            Department
+            EmployeeType
+            CurrentStatus
+          }
+        }`,
+        variables: { employee },
+      }),
+    })
+      .then((res) => res.json())
+      .then((body) => {
+        body.data.addEmployee.DateOfJoining = new Date(
+          body.data.addEmployee.DateOfJoining
+        );
+        const { employees } = this.state;
+        const newEmployeeArray = [...employees, body.data.addEmployee];
+        this.setState({
+          employees: newEmployeeArray,
+          og_employees: newEmployeeArray,
+        });
+      });
+  };
   handleSubmit = (event) => {
     event.preventDefault();
 
@@ -24,7 +69,7 @@ class EmployeeCreate extends Component {
       document.getElementById("ageerror").textContent =
         "Age should be between 20 to 70";
     } else {
-      this.props.createEmployee({
+      this.createEmployee({
         FirstName: form.fname.value,
         LastName: form.lname.value,
         Age: parseInt(form.age.value),
@@ -177,6 +222,7 @@ class EmployeeCreate extends Component {
             </button>
           </div>
         </form>
+        {/* <Outlet /> */}
       </div>
     );
   }

@@ -5,19 +5,15 @@ class EmployeeSearch extends Component {
     return (
       <div className="row">
         <form className="mb-3">
-          <div className="row">
-            <div className="col-8">
-              <input
-                className="form-control"
-                type="text"
-                placeholder="Search Employee"
-              />
-            </div>
-            <div className="col-4">
-              <button className="btn btn-primary mt-3" type="button">
-                Search
-              </button>
-            </div>
+          <div className="input-group mb-3">
+            <input
+              type="text"
+              className="form-control"
+              placeholder="Search Employee"
+            />
+            <button className="btn btn-primary" type="button">
+              Search
+            </button>
           </div>
         </form>
       </div>
