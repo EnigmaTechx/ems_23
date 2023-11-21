@@ -59,7 +59,6 @@ const EmployeeDetails = () => {
   const updateEmployee = async (e) => {
     e.preventDefault();
 
-    // Use the updated values for Title, Department, and CurrentStatus
     const updatedFields = {
       Title: title,
       Department: department,
@@ -67,9 +66,6 @@ const EmployeeDetails = () => {
     };
 
     try {
-      // Use PATCH request to update only the selected fields
-      console.log('updatedFields -- '+updatedFields.CurrentStatus);
-      console.log('eId -- '+eId);
       const response = await fetch("/graphql", {
         method: "POST",
         headers: {
