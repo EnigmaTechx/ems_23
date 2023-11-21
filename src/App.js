@@ -1,3 +1,11 @@
+/**
+ * Group 4
+    Derryck Dowuona - EmployeeCreate Route | Navbar | EmployeeFilter
+    Christina Tresa Abraham - Update Employee Functionality | Update Employee API
+    Dipkumar Gunvantkumar Rakholiya - EmployeeDetails Route | EmployeeDetails Component | EmployeeDetails API
+    Harsh Rameshkumar Patel - Delete Employee Functionality | Delete Employee API
+ */
+
 import "./App.css";
 import { Routes, Route } from "react-router-dom";
 import Navbar from "./routes/navigation/Navbar";
