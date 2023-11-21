@@ -50,12 +50,15 @@ class EmployeeList extends Component {
 
   filterEmployees = (employeeType) => {
     if (employeeType === "All" || employeeType === "") {
+      // if selection is "All" or empty, show all employees
       this.setState({ employees: this.state.og_employees });
       return;
     }
+    // create a new array of employees that match the selected employee type
     const filteredEmployees = this.state.og_employees.filter(
       (employee) => employee.EmployeeType === employeeType
     );
+    // set the state to the new array of employees
     this.setState({ employees: filteredEmployees });
   };
 
@@ -79,6 +82,7 @@ class EmployeeList extends Component {
       .then((res) => res.json())
       .then((body) => {
         console.log("GraphQL Response:", body.data);
+        // if the delete was successful, update the state
         if (body.data.deleteEmployee > 0) {
           this.componentDidMount();
           alert("Employee Data deleted successfully!");

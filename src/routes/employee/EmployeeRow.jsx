@@ -23,6 +23,7 @@ const EmployeeRow = ({ employee, onDeleteClick }) => {
       <td>{employee.EmployeeType}</td>
       <td>{employee.CurrentStatus}</td>
       <td>
+        {/* navigate to EmployeeDetails page with selected id */}
         <button
           className="btn btn-primary"
           onClick={() => {

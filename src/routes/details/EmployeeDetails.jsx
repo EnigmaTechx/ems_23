@@ -41,6 +41,7 @@ const EmployeeDetails = () => {
             body.data.employee.DateOfJoining
           );
         }
+        // set the employee state to the employee object returned from the query
         setEmployee(body.data.employee);
         setTitle(body.data.employee.Title);
         setDepartment(body.data.employee.Department);
