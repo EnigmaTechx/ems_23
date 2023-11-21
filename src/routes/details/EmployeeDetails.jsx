@@ -51,7 +51,6 @@ const EmployeeDetails = () => {
 
   return (
     <div className="container">
-      <p>Employee ID: {eId}</p>
       <h1>Employee Details</h1>
       <p>Employee ID: {employee.id}</p>
       <p>First Name: {employee.FirstName}</p>
