@@ -10,6 +10,7 @@ const EmployeeDetails = () => {
   const [currentStatus, setCurrentStatus] = React.useState("");
 
   const getEmployeeDetails = async () => {
+    console.log("getting employee details");
     fetch("/graphql", {
       method: "POST",
       headers: {
@@ -35,7 +36,6 @@ const EmployeeDetails = () => {
     })
       .then((res) => res.json())
       .then((body) => {
-        console.log("body", body.data);
         if (body.data.employee.DateOfJoining) {
           body.data.employee.DateOfJoining = new Date(
             body.data.employee.DateOfJoining
@@ -202,6 +202,21 @@ const EmployeeDetails = () => {
           Update
         </button>
       </form>
+      {/* <div className="row">
+        <div className="col-4">
+          <button onClick={increaseNumber} className="btn btn-primary">
+            Increase
+          </button>
+        </div>
+        <div className="col-4">
+          <h2>{number}</h2>
+        </div>
+        <div className="col-4">
+          <button onClick={decreaseNumber} className="btn btn-primary">
+            Decrease
+          </button>
+        </div>
+      </div> */}
     </div>
   );
 };
