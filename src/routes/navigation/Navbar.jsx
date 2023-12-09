@@ -35,6 +35,15 @@ const Navbar = () => {
                   Create Employee
                 </Link>
               </li>
+              <li className="nav-item">
+                <Link
+                  className="nav-link active"
+                  aria-current="page"
+                  to="/upcoming"
+                >
+                  UpComing Retirement
+                </Link>
+              </li>
             </ul>
           </div>
         </div>

@@ -10,7 +10,6 @@ const EmployeeDetails = () => {
   const [currentStatus, setCurrentStatus] = React.useState("");
 
   const getEmployeeDetails = async () => {
-    console.log("getting employee details");
     fetch("/graphql", {
       method: "POST",
       headers: {

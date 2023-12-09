@@ -1,18 +1,12 @@
-import { Component } from "react";
-import EmployeeTable from "./EmployeeTable";
-import EmployeeSearch from "../../components/EmployeeSearch";
+import React, { useState, useEffect } from "react";
 import EmployeeFilter from "../../components/EmployeeFilter";
+import EmployeeTable from "../employee/EmployeeTable";
 
-class EmployeeList extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      employees: this.props.employees,
-      og_employees: this.props.og_employees,
-    };
-  }
+const UpComingRetirement = () => {
+  const [retiringEmployees, setRetiringEmployees] = useState([]);
+  const [ogRetiringEmployees, setOgRetiringEmployees] = useState([]);
 
-  componentDidMount() {
+  const fetchEmployees = () => {
     fetch("/graphql", {
       method: "POST",
       headers: {
@@ -22,7 +16,7 @@ class EmployeeList extends Component {
         query: `
                 query {
                     employees {
-                      id
+                        id
                         FirstName
                         LastName
                         Age
@@ -31,9 +25,9 @@ class EmployeeList extends Component {
                         Department
                         EmployeeType
                         CurrentStatus
-                      }
+                    }
                 }
-              `,
+            `,
       }),
     })
       .then((res) => res.json())
@@ -41,34 +35,45 @@ class EmployeeList extends Component {
         body.data.employees.forEach((employee) => {
           employee.DateOfJoining = new Date(employee.DateOfJoining);
         });
-        this.setState({
-          employees: body.data.employees,
-          og_employees: body.data.employees,
-        });
+        getRetiringEmployees(body.data.employees);
       });
-  }
-
-  filterEmployees = (employeeType) => {
-    if (employeeType === "All" || employeeType === "") {
-      // if selection is "All" or empty, show all employees
-      this.setState({ employees: this.state.og_employees });
-      return;
-    }
-    // create a new array of employees that match the selected employee type
-    const filteredEmployees = this.state.og_employees.filter(
-      (employee) => employee.EmployeeType === employeeType
-    );
-    // set the state to the new array of employees
-    this.setState({ employees: filteredEmployees });
   };
 
-  deleteEmployee = (employeeId) => {
+  const getRetiringEmployees = (employeeList) => {
+    const today = new Date();
+    const upComingRetirements = employeeList.filter((employee) => {
+      const retirementDate = new Date(
+        employee.DateOfJoining.getFullYear() + employee.Age,
+        employee.DateOfJoining.getMonth(),
+        employee.DateOfJoining.getDate()
+      );
+      const diffTime = Math.abs(retirementDate - today);
+      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+      return diffDays <= 180;
+    });
+    setRetiringEmployees(upComingRetirements);
+    setOgRetiringEmployees(upComingRetirements);
+  };
+
+  // copied from EmployeeList.jsx for passing to EmployeeFilter.jsx
+  const filterEmployees = (employeeType) => {
+    if (employeeType === "All" || employeeType === "") {
+      setRetiringEmployees(ogRetiringEmployees);
+      return;
+    }
+    const filteredEmployees = ogRetiringEmployees.filter(
+      (employee) => employee.EmployeeType === employeeType
+    );
+    setRetiringEmployees(filteredEmployees);
+  };
+
+  // copied from EmployeeList.jsx for passing to EmployeeTable.jsx
+  const deleteEmployee = (employeeId) => {
     const query = `
     mutation Mutation($deleteEmployeeId: Int) {
       deleteEmployee(id: $deleteEmployeeId)
     }
     `;
-
     fetch("/graphql", {
       method: "POST",
       headers: {
@@ -81,7 +86,7 @@ class EmployeeList extends Component {
     })
       .then((res) => res.json())
       .then((body) => {
-        // console.log("GraphQL Response:", body.data);
+        console.log("GraphQL Response:", body.data);
         // if the delete was successful, update the state
         if (body.data.deleteEmployee > 0) {
           this.componentDidMount();
@@ -99,24 +104,26 @@ class EmployeeList extends Component {
       });
   };
 
-  render() {
-    return (
+  useEffect(() => {
+    fetchEmployees();
+  }, []);
+
+  return (
+    <div className="container">
+      <h2 className="text-center">UpComing Retirement</h2>
       <div>
         <div className="row">
-          <div className="col-6">
-            <EmployeeSearch />
-          </div>
-          <div className="col-6">
-            <EmployeeFilter filterEmployees={this.filterEmployees} />
+          <div className="col-12">
+            <EmployeeFilter filterEmployees={filterEmployees} />
           </div>
         </div>
         <EmployeeTable
-          employees={this.state.employees}
-          onDeleteClick={this.deleteEmployee}
+          employees={retiringEmployees}
+          onDeleteClick={deleteEmployee}
         />
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
 
-export default EmployeeList;
+export default UpComingRetirement;

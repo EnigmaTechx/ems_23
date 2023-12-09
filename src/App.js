@@ -14,6 +14,7 @@ import EmployeeList from "./routes/employee/EmployeeList";
 import EmployeeDetails from "./routes/details/EmployeeDetails";
 import EmployeeCreate from "./routes/create/EmployeeCreate";
 import NotFound from "./routes/not_found/NotFound";
+import UpComingRetirement from "./routes/retirement/UpComingRetirement";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
           <Route path="/" element={<EmployeeList />} />
           <Route path="/employee/:id" element={<EmployeeDetails />} />
           <Route path="/create" element={<EmployeeCreate />} />
+          <Route path="/upcoming" element={<UpComingRetirement />} />
           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>
